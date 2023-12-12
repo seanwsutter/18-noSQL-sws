@@ -1,3 +1,39 @@
+
+const mongoose = require('mongoose');
+
+// thought schema
+const thoughtSchema = new mongoose.Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      min: [1],
+      max: [280]
+    },
+
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+
+    username: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+  },
+
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  },
+)
+
+const Thought = mongoose.model('Thought', thoughtSchema);
+module.exports = Thought;
+
 // * `thoughtText`
 //   * String
 //   * Required
