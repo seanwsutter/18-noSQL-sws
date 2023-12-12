@@ -1,16 +1,16 @@
 // import
 const express = require('express');
-const db = require('./config/connection')
-const routes = require('./routes')
+
+const db = require('./config/connection');
+const routes = require('./routes');
 
 // express
-const app = express();
 const PORT = process.env.PORT || 3001;
+const app = express();
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
-// tell express to use these routes
 app.use(routes);
 
 db.once('open', () => {

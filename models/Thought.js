@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 // thought schema
@@ -16,11 +15,11 @@ const thoughtSchema = new mongoose.Schema(
       default: Date.now
     },
 
-    username: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true
+      ref: "User"
     },
+    reactions: []
   },
 
   {
@@ -30,6 +29,16 @@ const thoughtSchema = new mongoose.Schema(
     id: false,
   },
 )
+
+const reactionSchema = new mongoose.Schema(
+  {
+
+  }
+)
+
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length
+})
 
 const Thought = mongoose.model('Thought', thoughtSchema);
 module.exports = Thought;
