@@ -64,27 +64,27 @@ module.exports = {
     }
   },
 
-  // add friend
+  // add reaction 
   async addReaction(req, res) {
     try {
-      const friend = await Thought
-        .findOneAndUpdate({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } })
+      const reaction = await Thought
+        .findOneAndUpdate({ _id: req.params.id }, { $addToSet: { reactions: req.body } })
 
-      res.json({ status: 'addFriend success', friend })
+      res.json({ status: 'addReaction success', reaction })
     } catch (err) {
-      res.status(500).json({ status: 'addFriend error', friend: err.message })
+      res.status(500).json({ status: 'addFriend error', reaction: err.message })
     }
   },
 
-  // add friend
+  // delete reaction from thought
   async deleteReaction(req, res) {
     try {
-      const friend = await Thought
-        .findOneAndUpdate({ _id: req.params.id }, { $addToSet: { friends: req.params.friendId } })
+      const reaction = await Thought
+        .findOneAndUpdate({ _id: req.params.id }, { $pull: { reaction: { _id: req.body.reactionId } } })
 
-      res.json({ status: 'deleteFriend success', friend })
+      res.json({ status: 'deleteReaction success', reaction })
     } catch (err) {
-      res.status(500).json({ status: 'deleteFriend error', friend: err.message })
+      res.status(500).json({ status: 'deleteReaction error', reaction: err.message })
     }
   },
 

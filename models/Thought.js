@@ -1,5 +1,35 @@
 const mongoose = require('mongoose');
 
+// reaction schema
+const reactionSchema = new mongoose.Schema(
+  {
+    reactionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: () => new mongoose.Types.ObjectId(),
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      max: [280]
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
+  },
+
+  {
+    toJSON: {
+      getters: true,
+    },
+    id: false,
+  }
+)
+
 // thought schema
 const thoughtSchema = new mongoose.Schema(
   {
@@ -9,17 +39,15 @@ const thoughtSchema = new mongoose.Schema(
       min: [1],
       max: [280]
     },
-
     createdAt: {
       type: Date,
       default: Date.now
     },
-
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
-    reactions: []
+    reactions: [reactionSchema]
   },
 
   {
@@ -29,13 +57,8 @@ const thoughtSchema = new mongoose.Schema(
     id: false,
   },
 )
-
-const reactionSchema = new mongoose.Schema(
-  {
-
-  }
-)
-
+  
+// returns # of reactions 
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length
 })
@@ -43,23 +66,3 @@ thoughtSchema.virtual('reactionCount').get(function () {
 const Thought = mongoose.model('Thought', thoughtSchema);
 module.exports = Thought;
 
-// * `thoughtText`
-//   * String
-//   * Required
-//   * Must be between 1 and 280 characters
-
-// * `createdAt`
-//   * Date
-//   * Set default value to the current timestamp
-//   * Use a getter method to format the timestamp on query
-
-// * `username` (The user that created this thought)
-//   * String
-//   * Required
-
-// * `reactions` (These are like replies)
-//   * Array of nested documents created with the `reactionSchema`
-
-// **Schema Settings**:
-
-// Create a virtual called `reactionCount` that retrieves the length of the thought's `reactions` array field on query.

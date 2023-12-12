@@ -23,7 +23,7 @@ router.route('/:id')
   .put(updateThought)
 
 // add & delete reaction 
-router.route('/:id/reaction')
+router.route('/:id/reactions')
   .post(addReaction)
   .delete(deleteReaction)
 

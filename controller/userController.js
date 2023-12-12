@@ -32,7 +32,9 @@ module.exports = {
     try {
       const payload = await User
         .findOne({ _id: req.params.id })
-        .select('-__v');
+        .select('-__v')
+        .populate({ path: 'thoughts' })
+
 
       res.json({ status: 'getUser success', payload })
     } catch (err) {
